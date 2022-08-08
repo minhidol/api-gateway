@@ -1,0 +1,193 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $MONGODB_LOCAL_PORT_ACCOUNT:$MONGODB_DOCKER_PORT_ACCOUNT
+    volumes:
+      - db_account:/data/db/account-database
+    networks:
+      - network-system-microservice
+
+  node:
+    container_name: account-ms
+    depends_on:
+      - mongodb
+    build: ./account-microservice
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT_ACCOUNT:$NODE_DOCKER_PORT_ACCOUNT
+    environment:
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE_ACCOUNT
+      - DB_PORT=$MONGODB_DOCKER_PORT_ACCOUNT
+    stdin_open: true
+    tty: true
+    networks:
+      - network-system-microservice
+
+  mongodb1:
+    image: mongo
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $MONGODB_LOCAL_PORT_CATEGORY:$MONGODB_DOCKER_PORT_CATEGORY
+    volumes:
+      - db_category:/data/db/category_database
+    networks:
+      - network-system-microservice
+
+  node1:
+    container_name: category-ms
+    depends_on:
+      - mongodb
+    build: ./Category-Microservice
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT_CATEGORY:$NODE_DOCKER_PORT_CATEGORY
+    environment:
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE_CATEGORY
+      - DB_PORT=$MONGODB_DOCKER_PORT_CATEGORY
+    stdin_open: true
+    tty: true
+    networks:
+      - network-system-microservice
+
+  mongodb2:
+    image: mongo
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $MONGODB_LOCAL_PORT_PAYMENT:$MONGODB_DOCKER_PORT_PAYMENT
+    volumes:
+      - db_payment:/data/payment-database
+    networks:
+      -  network-system-microservice
+
+  node2:
+    container_name: payment-ms
+    depends_on:
+      - mongodb
+    build: ./Payment-MS
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT_PAYMENT:$NODE_DOCKER_PORT_PAYMENT
+    environment:
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE_PAYMENT
+      - DB_PORT=$MONGODB_DOCKER_PORT_PAYMENT
+    stdin_open: true
+    tty: true
+    networks:
+      - network-system-microservice
+
+  mongodb3:
+    image: mongo
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $MONGODB_LOCAL_PORT_PRICE_PROMO:$MONGODB_DOCKER_PORT_PRICE_PROMO
+    volumes:
+      - db_price_promo:/data/price-database
+    networks:
+      - network-system-microservice
+
+  node3:
+    container_name: price-promo-ms
+    depends_on:
+      - mongodb
+    build: ./Price-Promo-Microservice
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT_PRICE_PROMO:$NODE_DOCKER_PORT_PRICE_PROMO
+    environment:
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE_PRICE_PROMO
+      - DB_PORT=$MONGODB_DOCKER_PORT_PRICE_PROMO
+    stdin_open: true
+    tty: true
+    networks:
+      - network-system-microservice
+
+  mongodb4:
+    image: mongo
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $MONGODB_LOCAL_PORT_PRODUCT:$MONGODB_DOCKER_PORT_PRODUCT
+    volumes:
+      - db_product:/data/db/product-database
+    networks:
+      - network-system-microservice
+
+  node4:
+    container_name: product-ms
+    depends_on:
+      - mongodb
+    build: ./product-service
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT_PRODUCT:$NODE_DOCKER_PORT_PRODUCT
+    environment:
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE_PRODUCT
+      - DB_PORT=$MONGODB_DOCKER_PORT_PRODUCT
+    stdin_open: true
+    tty: true
+    networks:
+      - network-system-microservice
+
+  mysqldb:
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD_CART
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE_CART
+    ports:
+      - $MYSQLDB_LOCAL_PORT_CART:$MYSQLDB_DOCKER_PORT_CART
+    volumes:
+      - db_cart:/var/lib/mysql
+    networks:
+      - network-system-microservice
+
+  node5:
+    container_name: cart-inventory-ms
+    depends_on:
+      - mysqldb
+    build: ./shopping-cart-inventory-service
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT_CART:$NODE_DOCKER_PORT_CART
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USER=$MYSQLDB_USER_CART
+      - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD_CART
+      - DB_NAME=$MYSQLDB_DATABASE_CART
+      - DB_PORT=$MYSQLDB_DOCKER_PORT_CART
+    stdin_open: true
+    tty: true
+    networks:
+      - network-system-microservice
+volumes:
+  db_account:
+  db_category:
+  db_payment:
+  db_price_promo:
+  db_product:
+  db_cart:
+
+networks:
+  network-system-microservice:
+     driver: overlay
+     external: true

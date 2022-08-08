@@ -1,0 +1,123 @@
+# version: '3.7'
+
+# ##edited
+# services:
+#  nginx_load_balancer_gateway:
+#     image: nginx
+#     volumes:
+#       - './nginx/default.conf:/etc/nginx/nginx.conf'
+#     ports:
+#       - 8069:85
+
+#   api_gateway1:
+#     build: ./
+#     ports:
+#       - APPID=3333
+#     volumes:
+#       - .:/app
+#     command: npm start
+#     networks:
+#       - microservice
+  # api_gateway2:
+  #   build: ./
+  #   ports:
+  #     - APPID=2222
+  #   volumes:
+  #     - .:/app
+  #   command: npm start
+  #   networks:
+  #     - microservice
+  # container_name1:
+  #   build: ./
+  #   ports:
+  #     - APPID=1111
+  #   volumes:
+  #     - .:/app
+  #   command: npm start
+  #   networks:
+  #     - microservice
+      
+
+# networks:
+#   microservice:
+
+
+# version: '3'
+# services:
+#   nginx_load_balancer:
+#     image: nginx
+#     volumes:
+#       - './nginx/default.conf:/etc/nginx/nginx.conf'
+#     ports:
+#       - '8069:85'
+#     networks:
+#       - microservice
+#   api_gateway1:
+#     build: ./
+#     environment: 
+#       - APPID=3333
+#     networks:
+#       - microservice
+#   api_gateway2:
+#     build: ./
+#     environment: 
+#       - APPID=2222
+#     networks:
+#       - microservice
+#   api_gateway3:
+#     build: ./
+#     environment: 
+#       - APPID=9999
+#     networks:
+#       - microservice
+      
+
+
+# networks:
+#   microservice:
+  #     - APPID=3333
+  # app4:
+  #   image: node-app
+  #   environment: 
+  #     - APPID=4444
+  # app5:
+  #   image: node-app
+  #   environment: 
+  #     - APPID=5555
+
+version: '3'
+
+services:
+  api_gateway:
+   image: 210314021403/service-gateway
+   build: ./
+   ports:
+     - 3333:3333
+   deploy:
+     replicas: 3
+     restart_policy:
+       max_attempts: 3
+       condition: on-failure       
+     update_config:
+       parallelism: 3
+       delay: 10s
+   networks: 
+    - network-system-microservice
+  
+  proxy:
+    image: 210314021403/service-proxy-nginx
+    # build: ./
+    ports:
+      - '80:80'
+    depends_on:
+      - api_gateway
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks: 
+      - network-system-microservice
+
+networks:
+  network-system-microservice:
+    external: true
+  

@@ -1,0 +1,26 @@
+{
+  "name": "@khoado24/log-library",
+  "version": "2.1.0",
+  "description": "Install file log proto and script",
+  "main": "index.ts",
+  "files": [
+    "protobuf"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khoado24/log-library.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khoado24/log-library/issues"
+  },
+  "homepage": "https://github.com/khoado24/log-library#readme",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.6.7",
+    "@grpc/proto-loader": "^0.6.12"
+  }
+}

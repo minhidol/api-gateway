@@ -1,0 +1,19 @@
+apiVersion: apps/v1 #1
+kind: Deployment #2
+metadata: #3
+  name: nodejs-deployment #4
+spec: #5
+  replicas: 2 #6
+  selector: #7
+    matchLabels: #7
+      app: nodejs #7
+  template: #8
+    metadata: #9
+      labels: #10
+        app: nodejs #11
+    spec: #12
+      containers: #13
+      - name: api-gateway-service #14
+        image: 210314021403/api-gateway #15
+        ports: #16
+        - containerPort: 3333 #17

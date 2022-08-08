@@ -1,0 +1,17 @@
+syntax = 'proto3';
+
+package packagelogs;
+
+import "google/protobuf/empty.proto";
+
+message Log {
+    string topic = 1;
+    string level = 2;
+    string msg = 3;
+}
+
+service LogService {
+    rpc LogInfo(Log) returns (Log) {};
+    rpc LogWarning(Log) returns (Log) {};
+    rpc LogError(Log) returns (Log) {};
+}
