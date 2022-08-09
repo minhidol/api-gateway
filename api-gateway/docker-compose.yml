@@ -91,7 +91,7 @@ services:
   api_gateway:
    build: ./
    ports:
-     - 8666:8666
+     - 8000:8000
   #  deploy:
   #    replicas: 3
   #    restart_policy:
