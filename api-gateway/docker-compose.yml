@@ -89,33 +89,32 @@ version: '3'
 
 services:
   api_gateway:
-   image: 210314021403/service-gateway
    build: ./
    ports:
-     - 3333:3333
-   deploy:
-     replicas: 3
-     restart_policy:
-       max_attempts: 3
-       condition: on-failure       
-     update_config:
-       parallelism: 3
-       delay: 10s
+     - 8666:8666
+  #  deploy:
+  #    replicas: 3
+  #    restart_policy:
+  #      max_attempts: 3
+  #      condition: on-failure       
+  #    update_config:
+  #      parallelism: 3
+  #      delay: 10s
    networks: 
     - network-system-microservice
   
-  proxy:
-    image: 210314021403/service-proxy-nginx
-    # build: ./
-    ports:
-      - '80:80'
-    depends_on:
-      - api_gateway
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks: 
-      - network-system-microservice
+  # proxy:
+  #   image: 210314021403/service-proxy-nginx
+  #   # build: ./
+  #   ports:
+  #     - '80:80'
+  #   depends_on:
+  #     - api_gateway
+  #   # deploy:
+  #   #   placement:
+  #   #     constraints: [node.role == manager]
+  #   networks: 
+  #     - network-system-microservice
 
 networks:
   network-system-microservice:

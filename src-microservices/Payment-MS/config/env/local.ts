@@ -7,11 +7,11 @@ export default {
 
   
 
-    url_product: "http://localhost:3333/product",
-    url_category: "http://localhost:3333/category",
-    url_cart_inventory: "http://localhost:3333/inventory-cart-ms",
-   url_price_promo: "http://localhost:3333/price-promo",
-    url_payment: "http://localhost:3333/payment"
+    url_product: "http://localhost:8666/product",
+    url_category: "http://localhost:8666/category",
+    url_cart_inventory: "http://localhost:8666/inventory-cart-ms",
+   url_price_promo: "http://localhost:8666/price-promo",
+    url_payment: "http://localhost:8666/payment"
 }
 
 
