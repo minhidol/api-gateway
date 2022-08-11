@@ -88,10 +88,22 @@
 version: '3'
 
 services:
+#   api_gateway1:
+#     build: ./
+#     ports:
+#       - APPID=3333
+#     volumes:
+#       - .:/app
+#     command: npm start
+#     networks:
+#       - microservice
   api_gateway:
    build: ./
    ports:
-     - 8000:8000
+     - 8001:8001
+   volumes:
+     - .:/app
+   command: npm start
   #  deploy:
   #    replicas: 3
   #    restart_policy:
