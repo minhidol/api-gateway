@@ -5,6 +5,7 @@ export function aMiddleware(req: Request, res: Response, next: NextFunction) {
 export function isAdmin (req: Request, res: Response, next: NextFunction) {
 	
 	const jwt = req.headers['userjwt'] as string;
+	console.log('is adminnnnn')
 	const jsonJwt = JSON.parse(jwt);
 	if(jsonJwt.role == 'admin')
 		next()

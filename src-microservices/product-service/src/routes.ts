@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
     },
     
     filename: function (req: any, file: any, cb: any) {
+        console.log('filename')
         cb(null, file.originalname.split('.')[0] + Date.now() + '.jpeg')
     }
 });
