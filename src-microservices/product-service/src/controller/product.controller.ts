@@ -279,7 +279,7 @@ export async function handleGetAllProduct(req: Request, res: Response) {
             let listPath: Array<String> = [];
             var countItem = listProduct[i].listImage.length;
             for (let j = 0; j < countItem; j++) {
-                listPath.push(`172.16.0.90:3333/product/upload/${listProduct[i].listImage[j].filename}`);
+                listPath.push(`http://118.69.111.40:8001/product/upload/${listProduct[i].listImage[j].filename}`);
             }
             var resPromo: any = {};
             resPromo = await doRequest(`${config.index.url_price_promo}/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
